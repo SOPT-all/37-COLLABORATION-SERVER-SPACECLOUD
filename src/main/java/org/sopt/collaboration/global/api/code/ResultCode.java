@@ -1,0 +1,8 @@
+package org.sopt.collaboration.global.api.code;
+
+import org.springframework.http.HttpStatus;
+
+public interface ResultCode {
+	HttpStatus getHttpStatus();
+	String getMessage();
+}
