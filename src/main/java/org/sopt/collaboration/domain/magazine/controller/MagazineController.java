@@ -18,11 +18,13 @@ public class MagazineController {
 
     public MagazineController(MagazineService magazineService) {this.magazineService=magazineService;}
 
-    @GetMapping("/api/v1/magazines")
-    public ApiResponse<List<MagazineResponseDto>> getAllMagazines() {
-        return ApiResponse.success(
-                SuccessCode.OK,
-                magazineService.getAllMagazines()
-        );
+    @GetMapping("/magazines")
+    public ResponseEntity<ApiResponse<List<MagazineResponseDto>>> getAllMagazines() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ApiResponse.success(
+                        SuccessCode.OK,
+                        magazineService.getAllMagazines()
+                ));
     }
 }
