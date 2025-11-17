@@ -1,10 +1,11 @@
 package org.sopt.collaboration.domain.magazine.controller;
 
 import org.sopt.collaboration.domain.magazine.dto.response.MagazineResponseDto;
-import org.sopt.collaboration.domain.magazine.entity.Magazine;
+import org.springframework.http.HttpStatus;
 import org.sopt.collaboration.domain.magazine.service.MagazineService;
 import org.sopt.collaboration.global.api.code.SuccessCode;
 import org.sopt.collaboration.global.api.response.ApiResponse;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping
+@RequestMapping(path = "/api/v1")
 public class MagazineController {
     private final MagazineService magazineService;
 
