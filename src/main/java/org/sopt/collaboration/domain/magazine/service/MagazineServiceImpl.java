@@ -3,6 +3,7 @@ package org.sopt.collaboration.domain.magazine.service;
 import org.sopt.collaboration.domain.magazine.dto.response.MagazineResponseDto;
 import org.sopt.collaboration.domain.magazine.repository.MagazineRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class MagazineServiceImpl implements MagazineService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<MagazineResponseDto> getAllMagazines() {
         return magazineRepository.findAll()
                 .stream()
