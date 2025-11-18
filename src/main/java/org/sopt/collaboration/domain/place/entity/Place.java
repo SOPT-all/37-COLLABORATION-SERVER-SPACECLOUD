@@ -68,10 +68,9 @@ public class Place extends BaseEntity {
 	@Column(name = "coupon", nullable = false)
 	private boolean coupon;
 
-    @Column(name = "category", nullable = false)
-    @Enumerated(value = EnumType.STRING)
-    private FilterCategory category;
+    @OneToMany(mappedBy = "place", fetch = FetchType.LAZY)
+    private List<PlaceFilter> placeFilters = new ArrayList<>();
 
-	@OneToMany(mappedBy = "place", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "place", fetch = FetchType.LAZY)
 	private List<PlaceHashtag> placeHashtags = new ArrayList<>();
 }
