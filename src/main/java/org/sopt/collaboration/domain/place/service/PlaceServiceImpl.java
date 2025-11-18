@@ -1,0 +1,44 @@
+package org.sopt.collaboration.domain.place.service;
+
+import java.util.List;
+
+import org.sopt.collaboration.domain.place.dto.response.PlaceInfoListDto;
+import org.sopt.collaboration.domain.place.entity.Place;
+import org.sopt.collaboration.domain.place.entity.enums.place.Location;
+import org.sopt.collaboration.domain.place.entity.enums.place.PriceUnit;
+import org.sopt.collaboration.domain.place.entity.enums.place.PurchaseType;
+import org.sopt.collaboration.domain.place.repository.PlaceRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
+public class PlaceServiceImpl implements PlaceService {
+	private static final int PAGE_SIZE = 12;
+
+	private final PlaceRepository placeRepository;
+
+	public PlaceInfoListDto searchPlaces(
+			final int page,
+			final Location location,
+			final Integer priceMin,
+			final Integer priceMax,
+			final PriceUnit priceUnit,
+			final PurchaseType purchaseType,
+			final List<String> filters,
+			final List<String> facilities
+	) {
+		Pageable pageable = PageRequest.of(page - 1, PAGE_SIZE);
+		Slice<Place> result = placeRepository.searchPlace(location, priceMin, priceMax, priceUnit, purchaseType,
+				filters, facilities,
+				pageable);
+
+		return PlaceInfoListDto.from(result);
+	}
+}

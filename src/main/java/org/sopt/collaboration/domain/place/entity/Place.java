@@ -1,5 +1,8 @@
 package org.sopt.collaboration.domain.place.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.sopt.collaboration.domain.common.BaseEntity;
 import org.sopt.collaboration.domain.place.entity.enums.place.PriceUnit;
 import org.sopt.collaboration.domain.place.entity.enums.place.PurchaseType;
@@ -9,9 +12,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -61,4 +66,7 @@ public class Place extends BaseEntity {
 
 	@Column(name = "coupon", nullable = false)
 	private boolean coupon;
+
+	@OneToMany(mappedBy = "place", fetch = FetchType.LAZY)
+	private List<PlaceHashtag> placeHashtags = new ArrayList<>();
 }
