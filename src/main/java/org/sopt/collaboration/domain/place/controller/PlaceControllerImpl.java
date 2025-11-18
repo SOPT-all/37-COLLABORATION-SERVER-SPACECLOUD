@@ -2,6 +2,7 @@ package org.sopt.collaboration.domain.place.controller;
 
 import java.util.List;
 
+import org.sopt.collaboration.domain.place.dto.response.CategoriesResponseDto;
 import org.sopt.collaboration.domain.place.dto.response.PlaceInfoListDto;
 import org.sopt.collaboration.domain.place.entity.enums.place.Location;
 import org.sopt.collaboration.domain.place.entity.enums.place.PriceUnit;
@@ -41,4 +42,14 @@ public class PlaceControllerImpl implements PlaceController {
 						placeService.searchPlaces(page, location, priceMin, priceMax,
 								priceUnit, purchaseType, filters, facilities)));
 	}
+
+    @GetMapping("/categories")
+    public ResponseEntity<ApiResponse<CategoriesResponseDto>> getCategories() {
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        SuccessCode.OK,
+                        placeService.getCategories()
+                )
+        );
+    }
 }
