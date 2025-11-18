@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
+    private static final int PAGE_SIZE = 4;
 
     public ReviewServiceImpl(ReviewRepository reviewRepository) {
         this.reviewRepository = reviewRepository;
@@ -20,11 +21,9 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<ReviewResponseDto> getAllReviewsWithPaging(int page, int size){
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Review> pages = reviewRepository.findAll(pageable);
-        return pages.map(ReviewResponseDto::from);
-    }
+    public SliceResponseDto<ReviewResponseDto> getAllReviewsWithPaging(int page) {
+
+        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
 
         Slice<Review> slice = reviewRepository.findByOrderByCreatedAtDesc(pageable);
 
