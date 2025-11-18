@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.sopt.collaboration.domain.common.BaseEntity;
+import org.sopt.collaboration.domain.place.entity.enums.filter.FilterCategory;
 import org.sopt.collaboration.domain.place.entity.enums.place.PriceUnit;
 import org.sopt.collaboration.domain.place.entity.enums.place.PurchaseType;
 import org.sopt.collaboration.domain.place.entity.enums.place.Location;
@@ -67,6 +68,9 @@ public class Place extends BaseEntity {
 	@Column(name = "coupon", nullable = false)
 	private boolean coupon;
 
-	@OneToMany(mappedBy = "place", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "place", fetch = FetchType.LAZY)
+    private List<PlaceFilter> placeFilters = new ArrayList<>();
+
+    @OneToMany(mappedBy = "place", fetch = FetchType.LAZY)
 	private List<PlaceHashtag> placeHashtags = new ArrayList<>();
 }
