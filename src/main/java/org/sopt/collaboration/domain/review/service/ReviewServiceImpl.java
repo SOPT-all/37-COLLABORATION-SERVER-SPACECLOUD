@@ -1,6 +1,5 @@
 package org.sopt.collaboration.domain.review.service;
 
-import org.sopt.collaboration.domain.review.dto.response.ReviewResponseDto;
 import org.sopt.collaboration.domain.review.dto.response.SliceResponseDto;
 import org.sopt.collaboration.domain.review.entity.Review;
 import org.sopt.collaboration.domain.review.repository.ReviewRepository;
@@ -21,13 +20,14 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional(readOnly = true)
-    public SliceResponseDto<ReviewResponseDto> getAllReviewsWithPaging(int page) {
+    public SliceResponseDto<SliceResponseDto.ReviewResponse> getAllReviewsWithPaging(int page) {
 
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
 
         Slice<Review> slice = reviewRepository.findByOrderByCreatedAtDesc(pageable);
 
-        Slice<ReviewResponseDto> mapped = slice.map(ReviewResponseDto::from);
+        Slice<SliceResponseDto.ReviewResponse> mapped =
+                slice.map(SliceResponseDto.ReviewResponse::from);
 
         return SliceResponseDto.fromSlice(mapped);
     }

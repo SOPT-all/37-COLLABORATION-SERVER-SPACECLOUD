@@ -1,6 +1,5 @@
 package org.sopt.collaboration.domain.review.controller;
 
-import org.sopt.collaboration.domain.review.dto.response.ReviewResponseDto;
 import org.sopt.collaboration.domain.review.dto.response.SliceResponseDto;
 import org.sopt.collaboration.domain.review.service.ReviewService;
 import org.sopt.collaboration.global.api.code.SuccessCode;
@@ -19,7 +18,7 @@ public class ReviewController {
     public ReviewController(ReviewService reviewService) {this.reviewService=reviewService;}
 
     @GetMapping("/reviews")
-    public ResponseEntity<ApiResponse<SliceResponseDto<ReviewResponseDto>>> getAllReviews(
+    public ResponseEntity<ApiResponse<SliceResponseDto<SliceResponseDto.ReviewResponse>>> getAllReviews(
             @RequestParam(defaultValue = "0") int page) {
 
         return ResponseEntity.ok(
