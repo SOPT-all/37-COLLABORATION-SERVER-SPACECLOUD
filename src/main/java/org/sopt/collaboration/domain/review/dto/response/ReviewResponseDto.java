@@ -9,7 +9,8 @@ public record ReviewResponseDto(
         String title,
         String detail,
         String reviewImageUrl,
-        Long placeId
+        Long placeId,
+        String category
 ) {
     public static ReviewResponseDto from (Review review) {
         return new ReviewResponseDto(
@@ -18,7 +19,8 @@ public record ReviewResponseDto(
                 review.getTitle(),
                 review.getDetail(),
                 review.getReviewImageUrl(),
-                review.getPlace().getId()
+                review.getPlace().getId(),
+                review.getPlace().getCategory().getDescription()
         );
     }
 }
