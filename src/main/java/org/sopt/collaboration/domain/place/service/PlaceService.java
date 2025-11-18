@@ -2,6 +2,7 @@ package org.sopt.collaboration.domain.place.service;
 
 import java.util.List;
 
+import org.sopt.collaboration.domain.place.dto.response.CategoriesResponseDto;
 import org.sopt.collaboration.domain.place.dto.response.PlaceInfoListDto;
 import org.sopt.collaboration.domain.place.entity.enums.place.Location;
 import org.sopt.collaboration.domain.place.entity.enums.place.PriceUnit;
@@ -18,4 +19,5 @@ public interface PlaceService {
 			List<String> filters,
 			List<String> facilities
 	);
+    CategoriesResponseDto getCategories();
 }
