@@ -22,7 +22,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional(readOnly = true)
     public SliceResponseDto<SliceResponseDto.ReviewResponse> getAllReviewsWithPaging(int page) {
 
-        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
+        Pageable pageable = PageRequest.of(page - 1, PAGE_SIZE);
 
         Slice<Review> slice = reviewRepository.findByOrderByCreatedAtDesc(pageable);
 
