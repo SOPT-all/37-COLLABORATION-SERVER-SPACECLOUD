@@ -1,5 +1,6 @@
 package org.sopt.collaboration.domain.place.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.sopt.collaboration.domain.place.entity.Place;
@@ -16,6 +17,9 @@ public interface PlaceSearchRepository {
 			Integer priceMax,
 			PriceUnit priceUnit,
 			PurchaseType purchaseType,
+			Integer capacity,
+			LocalDate reservationStartDate,
+			LocalDate reservationEndDate,
 			List<String> filters,
 			List<String> facilities,
 			Pageable pageable

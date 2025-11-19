@@ -1,5 +1,6 @@
 package org.sopt.collaboration.domain.place.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.sopt.collaboration.domain.place.entity.Place;
@@ -10,6 +11,7 @@ import org.sopt.collaboration.domain.place.entity.QPlace;
 import org.sopt.collaboration.domain.place.entity.QPlaceFacility;
 import org.sopt.collaboration.domain.place.entity.QPlaceFilter;
 import org.sopt.collaboration.domain.place.entity.QPlaceHashtag;
+import org.sopt.collaboration.domain.place.entity.QReservation;
 import org.sopt.collaboration.domain.place.entity.enums.place.Location;
 import org.sopt.collaboration.domain.place.entity.enums.place.PriceUnit;
 import org.sopt.collaboration.domain.place.entity.enums.place.PurchaseType;
@@ -35,6 +37,9 @@ public class PlaceSearchRepositoryImpl implements PlaceSearchRepository {
 			final Integer priceMax,
 			final PriceUnit priceUnit,
 			final PurchaseType purchaseType,
+			final Integer capacity,
+			final LocalDate reservationStartDate,
+			final LocalDate reservationEndDate,
 			final List<String> filters,
 			final List<String> facilities,
 			final Pageable pageable
@@ -51,6 +56,8 @@ public class PlaceSearchRepositoryImpl implements PlaceSearchRepository {
 						eqPriceUnit(priceUnit),
 						eqPurchaseType(purchaseType),
 						priceBetween(priceMin, priceMax),
+						loeCapacity(capacity),
+						noReservationOverlap(reservationStartDate, reservationEndDate),
 						existsFacilityByCodes(facilities),
 						existsFilterByCodes(filters)
 				)
@@ -86,6 +93,30 @@ public class PlaceSearchRepositoryImpl implements PlaceSearchRepository {
 			return null;
 
 		return QPlace.place.purchaseType.eq(type);
+	}
+
+	private BooleanExpression loeCapacity(Integer capacity) {
+		if (capacity == null)
+			return null;
+
+		return QPlace.place.capacity.loe(capacity);
+	}
+
+	private BooleanExpression noReservationOverlap(LocalDate reqStart, LocalDate reqEnd) {
+		if (reqStart == null || reqEnd == null)
+			return null;
+
+		QReservation reservation = QReservation.reservation;
+
+		return JPAExpressions
+				.selectOne()
+				.from(reservation)
+				.where(
+						reservation.place.id.eq(QPlace.place.id),
+						reservation.startDate.loe(reqEnd),
+						reservation.endDate.goe(reqStart)
+				)
+				.notExists();
 	}
 
 	private BooleanExpression priceBetween(Integer min, Integer max) {

@@ -1,5 +1,6 @@
 package org.sopt.collaboration.domain.place.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.sopt.collaboration.domain.place.dto.response.PlaceInfoListDto;
@@ -22,6 +23,9 @@ public interface PlaceController {
 			Integer priceMax,
 			PriceUnit priceUnit,
 			PurchaseType purchaseType,
+			Integer capacity,
+			LocalDate reservationStartDate,
+			LocalDate reservationEndDate,
 			List<String> filters,
 			List<String> facilities
 	);

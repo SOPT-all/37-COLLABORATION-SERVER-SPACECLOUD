@@ -1,5 +1,6 @@
 package org.sopt.collaboration.domain.place.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.sopt.collaboration.domain.place.dto.response.CategoriesResponseDto;
@@ -10,6 +11,8 @@ import org.sopt.collaboration.domain.place.entity.enums.place.PriceUnit;
 import org.sopt.collaboration.domain.place.entity.enums.place.PurchaseType;
 import org.sopt.collaboration.domain.place.repository.FilterRepository;
 import org.sopt.collaboration.domain.place.repository.PlaceRepository;
+import org.sopt.collaboration.global.api.code.ErrorCode;
+import org.sopt.collaboration.global.exception.InvalidInputException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -34,13 +37,21 @@ public class PlaceServiceImpl implements PlaceService {
 			final Integer priceMax,
 			final PriceUnit priceUnit,
 			final PurchaseType purchaseType,
+			final Integer capacity,
+			final LocalDate reservationStartDate,
+			final LocalDate reservationEndDate,
 			final List<String> filters,
 			final List<String> facilities
 	) {
+		if (reservationStartDate.isAfter(reservationEndDate) || !reservationStartDate.isAfter(LocalDate.now())) {
+			throw new InvalidInputException(ErrorCode.INVALID_REQUEST_VALUE);
+		}
+
 		Pageable pageable = PageRequest.of(page - 1, PAGE_SIZE);
-		Slice<Place> result = placeRepository.searchPlace(location, priceMin, priceMax, priceUnit, purchaseType,
-				filters, facilities,
-				pageable);
+
+		Slice<Place> result = placeRepository.searchPlace(
+				location, priceMin, priceMax, priceUnit, purchaseType, capacity,
+				reservationStartDate, reservationEndDate, filters, facilities, pageable);
 
 		return PlaceInfoListDto.from(result);
 	}
