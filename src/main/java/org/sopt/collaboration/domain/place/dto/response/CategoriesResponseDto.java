@@ -28,10 +28,12 @@ public record CategoriesResponseDto(
     }
 
     public record CategoryItem(
+            String code,
             String name
     ){
         public static CategoryItem from(Filter filter) {
             return new CategoryItem(
+                    filter.getCode(),
                     filter.getName()
             );
         }
