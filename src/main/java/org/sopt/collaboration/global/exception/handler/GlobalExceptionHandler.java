@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
@@ -31,6 +32,11 @@ public class GlobalExceptionHandler extends BaseExceptionHandler{
 	@ExceptionHandler(NoHandlerFoundException.class)
 	protected ResponseEntity<ApiResponse<Void>> handleNoHandlerFoundException(NoHandlerFoundException e) {
 		return buildErrorResponse(ErrorCode.INVALID_ENDPOINT);
+	}
+
+	@ExceptionHandler(HandlerMethodValidationException.class)
+	protected ResponseEntity<ApiResponse<Void>> handleHandlerMethodValidationException(HandlerMethodValidationException e) {
+		return buildErrorResponse(ErrorCode.INVALID_REQUEST_VALUE);
 	}
 
 	@ExceptionHandler(Exception.class)
