@@ -1,13 +1,10 @@
 package org.sopt.collaboration.domain.place.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.sopt.collaboration.domain.place.dto.response.CategoriesResponseDto;
 import org.sopt.collaboration.domain.place.dto.response.PlaceInfoListDto;
-import org.sopt.collaboration.domain.place.entity.Filter;
 import org.sopt.collaboration.domain.place.entity.Place;
-import org.sopt.collaboration.domain.place.entity.enums.filter.FilterCategory;
 import org.sopt.collaboration.domain.place.entity.enums.place.Location;
 import org.sopt.collaboration.domain.place.entity.enums.place.PriceUnit;
 import org.sopt.collaboration.domain.place.entity.enums.place.PurchaseType;
@@ -50,20 +47,6 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     public CategoriesResponseDto getCategories() {
-
-        List<Filter> allFilters = filterRepository.findAll();
-
-        List<CategoriesResponseDto.CategoryItem> workspace = new ArrayList<>();
-        List<CategoriesResponseDto.CategoryItem> gathering = new ArrayList<>();
-
-        for (Filter filter : allFilters) {
-            if (filter.getFilterCategory() == FilterCategory.WORKSPACE) {
-                workspace.add(CategoriesResponseDto.CategoryItem.from(filter));
-            } else if (filter.getFilterCategory() == FilterCategory.GATHERING) {
-                gathering.add(CategoriesResponseDto.CategoryItem.from(filter));
-            }
-        }
-
-        return new CategoriesResponseDto(workspace, gathering);
+        return CategoriesResponseDto.from(filterRepository.findAll());
     }
 }
