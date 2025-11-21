@@ -42,7 +42,7 @@ public class PlaceServiceImpl implements PlaceService {
 			final List<String> filters,
 			final List<String> facilities
 	) {
-		if (!reservationDate.isAfter(LocalDate.now())) {
+		if (reservationDate != null && !reservationDate.isAfter(LocalDate.now())) {
 			throw new InvalidInputException(ErrorCode.INVALID_REQUEST_VALUE);
 		}
 

@@ -29,7 +29,7 @@ public class PlaceControllerImpl implements PlaceController {
 
 	@GetMapping(path = "/search/{page}")
 	public ResponseEntity<ApiResponse<PlaceInfoListDto>> searchPlaces(
-			@PathVariable(name = "page") @Positive final int page,
+			@PathVariable(name = "page") final int page,
 			@RequestParam(name = "location", required = false) final Location location,
 			@RequestParam(name = "priceMin", required = false) final Integer priceMin,
 			@RequestParam(name = "priceMax", required = false) final Integer priceMax,
