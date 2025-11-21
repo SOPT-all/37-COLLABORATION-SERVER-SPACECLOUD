@@ -38,8 +38,7 @@ public class PlaceSearchRepositoryImpl implements PlaceSearchRepository {
 			final PriceUnit priceUnit,
 			final PurchaseType purchaseType,
 			final Integer capacity,
-			final LocalDate reservationStartDate,
-			final LocalDate reservationEndDate,
+			final LocalDate reservationDate,
 			final List<String> filters,
 			final List<String> facilities,
 			final Pageable pageable
@@ -57,7 +56,7 @@ public class PlaceSearchRepositoryImpl implements PlaceSearchRepository {
 						eqPurchaseType(purchaseType),
 						priceBetween(priceMin, priceMax),
 						loeCapacity(capacity),
-						noReservationOverlap(reservationStartDate, reservationEndDate),
+						noReservationOverlap(reservationDate),
 						existsFacilityByCodes(facilities),
 						existsFilterByCodes(filters)
 				)
@@ -102,8 +101,8 @@ public class PlaceSearchRepositoryImpl implements PlaceSearchRepository {
 		return QPlace.place.capacity.loe(capacity);
 	}
 
-	private BooleanExpression noReservationOverlap(LocalDate reqStart, LocalDate reqEnd) {
-		if (reqStart == null || reqEnd == null)
+	private BooleanExpression noReservationOverlap(LocalDate reservationDate) {
+		if (reservationDate == null)
 			return null;
 
 		QReservation reservation = QReservation.reservation;
@@ -113,8 +112,8 @@ public class PlaceSearchRepositoryImpl implements PlaceSearchRepository {
 				.from(reservation)
 				.where(
 						reservation.place.id.eq(QPlace.place.id),
-						reservation.startDate.loe(reqEnd),
-						reservation.endDate.goe(reqStart)
+						reservation.startDate.loe(reservationDate),
+						reservation.endDate.goe(reservationDate)
 				)
 				.notExists();
 	}

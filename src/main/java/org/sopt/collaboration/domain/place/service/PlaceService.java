@@ -18,8 +18,7 @@ public interface PlaceService {
             PriceUnit priceUnit,
             PurchaseType purchaseType,
             Integer capacity,
-            LocalDate reservationStartDate,
-            LocalDate reservationEndDate,
+            LocalDate reservationDate,
             List<String> filters,
             List<String> facilities
     );

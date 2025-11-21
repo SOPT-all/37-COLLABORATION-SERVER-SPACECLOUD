@@ -26,9 +26,9 @@ import lombok.RequiredArgsConstructor;
 @Transactional(readOnly = true)
 public class PlaceServiceImpl implements PlaceService {
 	private static final int PAGE_SIZE = 12;
-    private final FilterRepository filterRepository;
+	private final FilterRepository filterRepository;
 
-    private final PlaceRepository placeRepository;
+	private final PlaceRepository placeRepository;
 
 	public PlaceInfoListDto searchPlaces(
 			final int page,
@@ -38,12 +38,11 @@ public class PlaceServiceImpl implements PlaceService {
 			final PriceUnit priceUnit,
 			final PurchaseType purchaseType,
 			final Integer capacity,
-			final LocalDate reservationStartDate,
-			final LocalDate reservationEndDate,
+			final LocalDate reservationDate,
 			final List<String> filters,
 			final List<String> facilities
 	) {
-		if (reservationStartDate.isAfter(reservationEndDate) || !reservationStartDate.isAfter(LocalDate.now())) {
+		if (!reservationDate.isAfter(LocalDate.now())) {
 			throw new InvalidInputException(ErrorCode.INVALID_REQUEST_VALUE);
 		}
 
@@ -51,13 +50,13 @@ public class PlaceServiceImpl implements PlaceService {
 
 		Slice<Place> result = placeRepository.searchPlace(
 				location, priceMin, priceMax, priceUnit, purchaseType, capacity,
-				reservationStartDate, reservationEndDate, filters, facilities, pageable);
+				reservationDate, filters, facilities, pageable);
 
 		return PlaceInfoListDto.from(result);
 	}
 
-    @Override
-    public CategoriesResponseDto getCategories() {
-        return CategoriesResponseDto.from(filterRepository.findAll());
-    }
+	@Override
+	public CategoriesResponseDto getCategories() {
+		return CategoriesResponseDto.from(filterRepository.findAll());
+	}
 }

@@ -36,8 +36,7 @@ public class PlaceControllerImpl implements PlaceController {
 			@RequestParam(name = "priceUnit", required = false) final PriceUnit priceUnit,
 			@RequestParam(name = "purchaseType", required = false) final PurchaseType purchaseType,
 			@RequestParam(name = "capacity", required = false) final Integer capacity,
-			@RequestParam(name = "reservationStartDate", required = false) final LocalDate reservationStartDate,
-			@RequestParam(name = "reservationEndDate", required = false) final LocalDate reservationEndDate,
+			@RequestParam(name = "reservationDate", required = false) final LocalDate reservationDate,
 			@RequestParam(name = "filter", required = false) final List<String> filters,
 			@RequestParam(name = "facility", required = false) final List<String> facilities
 	) {
@@ -45,7 +44,7 @@ public class PlaceControllerImpl implements PlaceController {
 				.body(ApiResponse.success(
 						SuccessCode.OK,
 						placeService.searchPlaces(page, location, priceMin, priceMax, priceUnit, purchaseType,
-								capacity, reservationStartDate, reservationEndDate, filters, facilities)));
+								capacity, reservationDate, filters, facilities)));
 	}
 
     @GetMapping("/categories")
