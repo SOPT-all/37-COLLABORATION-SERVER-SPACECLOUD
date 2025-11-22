@@ -27,9 +27,9 @@ import lombok.RequiredArgsConstructor;
 public class PlaceControllerImpl implements PlaceController {
 	private final PlaceService placeService;
 
-	@GetMapping(path = "/search/{page}")
+	@GetMapping(path = "/search")
 	public ResponseEntity<ApiResponse<PlaceInfoListDto>> searchPlaces(
-			@PathVariable(name = "page") final int page,
+			@RequestParam(name = "page", defaultValue = "1") final int page,
 			@RequestParam(name = "location", required = false) final Location location,
 			@RequestParam(name = "priceMin", required = false) final Integer priceMin,
 			@RequestParam(name = "priceMax", required = false) final Integer priceMax,

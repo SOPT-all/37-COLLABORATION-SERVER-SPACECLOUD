@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.constraints.Positive;
@@ -19,9 +20,9 @@ public class ReviewController {
 
     public ReviewController(ReviewService reviewService) {this.reviewService=reviewService;}
 
-    @GetMapping("/{page}")
+    @GetMapping
     public ResponseEntity<ApiResponse<SliceResponseDto<SliceResponseDto.ReviewResponse>>> getAllReviews(
-            @PathVariable(name = "page") @Positive int page) {
+            @RequestParam(name = "page", defaultValue = "1") @Positive int page) {
 
         return ResponseEntity.ok(
                 ApiResponse.success(
