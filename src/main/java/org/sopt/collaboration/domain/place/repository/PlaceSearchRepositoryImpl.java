@@ -47,7 +47,8 @@ public class PlaceSearchRepositoryImpl implements PlaceSearchRepository {
 		QPlaceHashtag qPlaceHashtag = QPlaceHashtag.placeHashtag;
 		QHashtag qHashtag = QHashtag.hashtag;
 
-		List<Place> places = queryFactory.selectFrom(qPlace)
+		List<Place> places = queryFactory.selectDistinct(qPlace)
+				.from(qPlace)
 				.leftJoin(qPlaceHashtag).on(qPlaceHashtag.place.id.eq(qPlace.id)).fetchJoin()
 				.leftJoin(qHashtag).on(qHashtag.id.eq(qPlaceHashtag.hashtag.id)).fetchJoin()
 				.where(
