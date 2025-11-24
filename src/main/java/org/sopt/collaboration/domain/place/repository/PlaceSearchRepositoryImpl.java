@@ -62,6 +62,7 @@ public class PlaceSearchRepositoryImpl implements PlaceSearchRepository {
 						existsFilterByCodes(filters)
 				)
 				.orderBy(qPlace.createdAt.desc())
+				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize() + 1)
 				.fetch();
 
