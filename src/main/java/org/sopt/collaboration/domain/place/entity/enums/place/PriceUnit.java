@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum PriceUnit {
 	HOUR("시간"),
+	DAY("일"),
 	MONTH("월"),
 	PACKAGE("패키지");
 
