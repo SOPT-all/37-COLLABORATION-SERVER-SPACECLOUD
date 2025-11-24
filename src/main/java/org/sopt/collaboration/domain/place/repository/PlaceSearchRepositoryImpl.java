@@ -56,7 +56,7 @@ public class PlaceSearchRepositoryImpl implements PlaceSearchRepository {
 						eqPriceUnit(priceUnit),
 						eqPurchaseType(purchaseType),
 						priceBetween(priceMin, priceMax),
-						loeCapacity(capacity),
+						goeCapacity(capacity),
 						noReservationOverlap(reservationDate),
 						existsFacilityByCodes(facilities),
 						existsFilterByCodes(filters)
@@ -96,11 +96,11 @@ public class PlaceSearchRepositoryImpl implements PlaceSearchRepository {
 		return QPlace.place.purchaseType.eq(type);
 	}
 
-	private BooleanExpression loeCapacity(Integer capacity) {
+	private BooleanExpression goeCapacity(Integer capacity) {
 		if (capacity == null)
 			return null;
 
-		return QPlace.place.capacity.loe(capacity);
+		return QPlace.place.capacity.goe(capacity);
 	}
 
 	private BooleanExpression noReservationOverlap(LocalDate reservationDate) {
