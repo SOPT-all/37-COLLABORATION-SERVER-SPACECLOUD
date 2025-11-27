@@ -49,8 +49,8 @@ public class PlaceSearchRepositoryImpl implements PlaceSearchRepository {
 
 		List<Place> places = queryFactory.selectDistinct(qPlace)
 				.from(qPlace)
-				.leftJoin(qPlaceHashtag).on(qPlaceHashtag.place.id.eq(qPlace.id)).fetchJoin()
-				.leftJoin(qHashtag).on(qHashtag.id.eq(qPlaceHashtag.hashtag.id)).fetchJoin()
+				.leftJoin(qPlace.placeHashtags, qPlaceHashtag).fetchJoin()
+				.leftJoin(qPlaceHashtag.hashtag, qHashtag).fetchJoin()
 				.where(
 						eqLocation(location),
 						eqPriceUnit(priceUnit),
